@@ -19,7 +19,7 @@
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  /*color-scheme: light dark;*/
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -35,8 +35,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
+    --text-h: #000000;
+    --bg: #fdfdff;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;
