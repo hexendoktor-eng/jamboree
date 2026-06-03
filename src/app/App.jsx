@@ -1,27 +1,17 @@
-import { useState } from 'react'
-
-import './App.css'
+import '../App.css'
+import Navigation from '../components/Navigation'
 
 function App() {
 
 
   return (
     <>
-        <nav className="flex gap-6 justify-center mt-3">
-            <a href={"home"} className="px-4 py-2 bg-[#59a9fc] hover:bg-[#4b6dd4] text-white font-bold rounded-md">
-                Home
-            </a>
 
-            <a href={"about"} className="px-4 py-2 bg-[#59a9fc] hover:bg-[#4b6dd4]  text-white font-bold rounded-md">
-                About
-            </a>
-            <a href={"contact"} className="px-4 py-2 bg-[#59a9fc] hover:bg-[#4b6dd4] text-white font-bold rounded-md">
-                Contact
-            </a>
-        </nav>
+    <main>
+      <Navigation />
       <h1>
         <b className="text-3xl tracking-[0.2em]">
-            JAMBOREE </b>
+            J A M B O R E E </b>
       </h1>
       <p className="text-lg text-red-900">
         I want to try to test out some of the tail-wind classes as it seems a interesting way to style my components.
@@ -33,6 +23,7 @@ function App() {
           Submit
         </button>
       </div>
+    </main>
 
     </>
   )
