@@ -1,7 +1,8 @@
-import magdalenaBay from './magdalenaBay.png';
-import quimeraArt from './quimera.png';
-import heavenVegas from './heavenVegas.png';
-import channelOrange from './channelOrange.png';
+import magdalenaBay from './assets/Magdalena_Bay_-_Imaginal_Disk.png';
+import quimeraArt from './assets/Quimera.png';
+import heavenVegas from './assets/HeavenLasVegas.png';
+import channelOrange from './assets/Channel_ORANGE.png';
+
 
 
 

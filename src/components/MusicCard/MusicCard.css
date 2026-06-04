@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap");
+
+#music-card {
+    width: 100%;
+    margin: 2rem auto
+}
+
+main h2 {
+    text-align: center;
+    font-family: "Roboto Condensed", sans-serif;
+    margin: 0 0 1rem 0;
+    color: #a18aba;
+}
+
+#music-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;             /* Flexbox is perfect for rows */
+    justify-content: center;   /* Centers the cards horizontally */
+    align-items: stretch;      /* Makes sure cards are the same height */
+    gap: 2rem;                 /* Space between the cards */
+    flex-wrap: wrap;           /* Allows cards to stack on small screens */
+}
+
+#music-card li {
+    /* We moved the card styling here! */
+    background-color: #140524;
+    padding: 2rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+    /* Sizing constraints */
+    width: 12rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#music-card li img {
+    width: 100%;
+    max-width: 6rem;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+#music-card li h3 {
+    margin: 0.5rem 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+#music-card li p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
