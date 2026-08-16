@@ -1,16 +1,26 @@
-# React + Vite
+# Jamboree
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal music catalogue for saving listening history and tracking recommendations from friends.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+## Import a public Last.fm profile
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Jamboree imports a username’s recent public scrobbles. It does not ask for a Last.fm password or use Last.fm login.
 
-## Expanding the ESLint configuration
+1. Create a free API account at [Last.fm API accounts](https://www.last.fm/api/account/create).
+2. Copy `.env.example` to `.env.local`.
+3. Replace the placeholder with the API key Last.fm gives you:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+   ```text
+   VITE_LASTFM_API_KEY=your_api_key_here
+   ```
+
+4. Restart `npm run dev`, select **Add Last.fm profile**, and enter a public Last.fm username.
+
+Do not add your Last.fm shared secret to this project. The username importer only makes public, read-only API calls. A server-side integration will be needed later for authenticated actions such as scrobbling or loving tracks.
