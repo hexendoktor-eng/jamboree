@@ -1,0 +1,26 @@
+.music-card { min-width: 0; }
+
+.cover-wrap { aspect-ratio: 1; border: 1px solid var(--hairline-card); overflow: hidden; position: relative; }
+.cover-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.catalogue-chip { position: absolute; top: 5px; left: 5px; background: var(--paper); font: 600 8px 'IBM Plex Mono', monospace; padding: 2px 5px; }
+.classification-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; }
+.classification-bar.bar-green { background: var(--green); }
+.classification-bar.bar-plum { background: var(--plum); }
+
+.cover-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
+.cover-placeholder--green { background: linear-gradient(135deg, #8fbfae, #4f7a78); }
+.cover-placeholder--plum { background: linear-gradient(135deg, #a4839f, #5b3568); }
+.cover-diamond { width: 16px; height: 16px; border: 1px solid var(--paper); transform: rotate(45deg); }
+.cover-placeholder-artist { position: absolute; bottom: 14px; left: 8px; right: 8px; text-align: center; font-family: 'Source Serif 4', serif; font-style: italic; font-size: 11px; color: var(--paper); }
+
+.music-card h3 { font-family: 'Source Serif 4', serif; font-style: italic; font-weight: 400; font-size: 13px; margin: 9px 0 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track-artist { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.track-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 7px; padding-top: 5px; border-top: 1px solid var(--hairline-soft); font: 500 9px 'IBM Plex Mono', monospace; color: var(--faint-2); }
+.track-meta-right { display: flex; align-items: center; }
+.track-save { display: none; background: none; border: 0; padding: 0; font: 600 9px 'IBM Plex Mono', monospace; cursor: pointer; }
+.music-card:hover .track-plays { display: none; }
+.music-card:hover .track-save { display: inline; }
+.track-save.is-saved { color: var(--green); }
+.track-save:not(.is-saved) { color: var(--plum); text-decoration: underline; text-underline-offset: 2px; }
