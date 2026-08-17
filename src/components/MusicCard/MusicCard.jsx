@@ -1,20 +1,34 @@
 import { useState } from 'react'
+import './MusicCard.css'
 
-export default function MusicCard({ image, title, artist, type, year, mood, plays, isSaved, onToggleSaved }) {
+export default function MusicCard({ index, image, title, artist, mood, plays, isSaved, onToggleSaved }) {
   const [hasMissingCover, setHasMissingCover] = useState(!image)
+  const isGreen = index % 2 === 0
+  const catalogueNumber = String(index + 1).padStart(3, '0')
 
   return (
     <article className="music-card">
       <div className="cover-wrap">
         {hasMissingCover ? (
-          <div className="cover-placeholder" aria-label={`No cover art available for ${title}`} role="img"><span>♪</span><small>{artist}</small></div>
+          <div className={isGreen ? 'cover-placeholder cover-placeholder--green' : 'cover-placeholder cover-placeholder--plum'} role="img" aria-label={`No cover art available for ${title}`}>
+            <span className="cover-diamond" />
+            <span className="cover-placeholder-artist">{artist}</span>
+          </div>
         ) : (
           <img src={image} alt={`${title} cover`} onError={() => setHasMissingCover(true)} />
         )}
-        <button className={isSaved ? 'heart saved' : 'heart'} onClick={onToggleSaved} aria-label={`${isSaved ? 'Remove' : 'Save'} ${title}`}>{isSaved ? '♥' : '♡'}</button><span className="format-tag">{type}</span>
+        <span className="catalogue-chip">No. {catalogueNumber}</span>
+        <span className={isGreen ? 'classification-bar bar-green' : 'classification-bar bar-plum'} />
       </div>
-      <div className="card-copy"><div><h3>{title}</h3><p>{artist}</p></div><span className="year">{year}</span></div>
-      <div className="card-meta"><span>{mood}</span><span>{plays} plays</span></div>
+      <h3>{title}</h3>
+      <p className="track-artist">{artist}</p>
+      <div className="track-meta">
+        <span className="track-mood">{mood}</span>
+        <span className="track-meta-right">
+          <span className="track-plays">{plays} plays</span>
+          <button className={isSaved ? 'track-save is-saved' : 'track-save'} onClick={onToggleSaved} aria-label={`${isSaved ? 'Unsave' : 'Save'} ${title}`}>{isSaved ? 'SAVED' : 'SAVE'}</button>
+        </span>
+      </div>
     </article>
   )
 }

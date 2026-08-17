@@ -16,10 +16,25 @@ const library = SongList.map((song, index) => ({
 }))
 
 const recommendations = [
-  { ...library[1], friend: 'Mia', note: 'This feels like it belongs on your late-night walks playlist.', date: 'Today', color: '#ffd166' },
-  { ...library[2], friend: 'Andre', note: 'A perfect album for disappearing into for forty minutes.', date: 'Yesterday', color: '#90e0ef' },
-  { ...library[3], friend: 'Jo', note: 'The kind of sunny record that turns a commute around.', date: 'Aug 11', color: '#ff9f9f' },
+  { ...library[1], friend: 'Mia', note: 'This feels like it belongs on your late-night walks playlist.', date: 'Today' },
+  { ...library[2], friend: 'Andre', note: 'A perfect album for disappearing into for forty minutes.', date: 'Yesterday' },
+  { ...library[3], friend: 'Jo', note: 'The kind of sunny record that turns a commute around.', date: 'Aug 11' },
 ]
+
+function RecommendationRow({ index, recommendation, isSaved, onToggleSaved }) {
+  return (
+    <article className="recommend-row">
+      <span className="recommend-index">{String(index + 1).padStart(2, '0')}</span>
+      <img className="recommend-thumb" src={recommendation.image} alt={`${recommendation.title} cover`} />
+      <p className="recommend-copy">
+        <span className="recommend-initial">{recommendation.friend[0]}</span>
+        <b>{recommendation.friend}</b> — {recommendation.title}, {recommendation.artist}. <i className="recommend-note">"{recommendation.note}"</i>
+      </p>
+      <span className="recommend-date">{recommendation.date}</span>
+      <button className={isSaved ? 'recommend-save is-saved' : 'recommend-save'} onClick={onToggleSaved} aria-label={`${isSaved ? 'Unsave' : 'Save'} ${recommendation.title}`}>{isSaved ? 'SAVED' : 'SAVE'}</button>
+    </article>
+  )
+}
 
 function App() {
   const [activeView, setActiveView] = useState('Library')
@@ -43,6 +58,11 @@ function App() {
       return matchesSearch && matchesFilter
     })
   }, [currentLibrary, filter, query])
+
+  const filteredRecommendations = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase()
+    return recommendations.filter((song) => !normalizedQuery || `${song.title} ${song.artist}`.toLowerCase().includes(normalizedQuery))
+  }, [query])
 
   const toggleSaved = (title) => {
     setSavedSongs((currentSongs) => {
@@ -86,44 +106,47 @@ function App() {
       <section className="content">
         <header className="topbar">
           <div>
-            <p className="eyebrow">YOUR SOUND, ORGANIZED</p>
+            <p className="eyebrow">VOL. III — YOUR SOUND, ORGANIZED</p>
             <h1>Good evening, Justin.</h1>
           </div>
-          <div className="profile-area">
-            <button className="icon-button" aria-label="View notifications">⌁</button>
-            <button className="avatar" aria-label="Open profile">J</button>
-          </div>
+          <button className="avatar" aria-label="Open profile">J</button>
         </header>
 
-        <section className="welcome-card">
+        <section className="lastfm-card">
           <div>
-            <p className="eyebrow">FROM LAST.FM</p>
-            <h2>{lastFmProfile ? `Welcome in, ${lastFmProfile.username}.` : 'Your listening story is taking shape.'}</h2>
-            <p className="welcome-copy">{lastFmProfile ? `${importedLibrary.length} recent tracks are now in your library. You can search, save, and revisit them below.` : 'Add your Last.fm username to turn your public scrobbles into a collection worth revisiting.'}</p>
-            <button className="primary-button" onClick={openConnectDialog}>{lastFmProfile ? 'Import another profile' : 'Add Last.fm profile'} <span>↗</span></button>
+            <p className="lastfm-label">SOURCE: LAST.FM — {lastFmProfile ? 'CONNECTED' : 'NOT CONNECTED'}</p>
+            {lastFmProfile ? (
+              <div className="lastfm-fields">
+                <div><div className="lastfm-field-label">USERNAME</div>{lastFmProfile.username}</div>
+                <div><div className="lastfm-field-label">SCROBBLES</div>{importedLibrary.length} synced</div>
+                <div><div className="lastfm-field-label">LAST SYNC</div>Just now</div>
+              </div>
+            ) : (
+              <p className="lastfm-copy">Add a public Last.fm username to start your catalogue.</p>
+            )}
           </div>
-          <div className="orbital-art" aria-hidden="true">
-            <span className="orbital-ring ring-one" />
-            <span className="orbital-ring ring-two" />
-            <span className="orbital-note">♫</span>
-            <span className="art-sticker sticker-one">♡</span>
-            <span className="art-sticker sticker-two">✦</span>
-          </div>
+          <button className="btn-outline" onClick={openConnectDialog}>{lastFmProfile ? 'Import another profile' : 'Add Last.fm profile'} →</button>
         </section>
 
         <section className="stat-grid" aria-label="Collection statistics">
-          <div className="stat-card"><span className="stat-symbol">◌</span><div><strong>{lastFmProfile ? importedLibrary.length : '124'}</strong><span>{lastFmProfile ? 'Imported tracks' : 'Saved records'}</span></div></div>
-          <div className="stat-card"><span className="stat-symbol coral">↗</span><div><strong>18</strong><span>New this month</span></div></div>
-          <div className="stat-card"><span className="stat-symbol blue">♬</span><div><strong>37</strong><span>Recommendations</span></div></div>
+          <div className="stat-cell">
+            <div className="stat-value">{lastFmProfile ? importedLibrary.length : 124}</div>
+            <div className="stat-label">{lastFmProfile ? 'IMPORTED TRACKS' : 'SAVED RECORDS'}</div>
+          </div>
+          <div className="stat-cell">
+            <div className="stat-value accent-green">18</div>
+            <div className="stat-label">NEW THIS MONTH</div>
+          </div>
+          <div className="stat-cell">
+            <div className="stat-value accent-plum">37</div>
+            <div className="stat-label">RECOMMENDATIONS</div>
+          </div>
         </section>
 
         <section className="collection-section">
           <div className="section-heading">
-            <div>
-              <p className="eyebrow">{activeView === 'Home' ? 'A SMALL PIECE OF YOUR' : 'CURATED BY YOU'}</p>
-              <h2>{activeView === 'Home' ? 'Recently saved' : activeView === 'Recommendations' ? 'Friend recommendations' : 'Your collection'}</h2>
-            </div>
-            <button className="text-button">View all <span>→</span></button>
+            <h2>{activeView === 'Home' ? 'Recently saved' : activeView === 'Recommendations' ? 'Friend recommendations' : 'Your collection'}</h2>
+            <button className="text-link">VIEW ALL →</button>
           </div>
 
           <div className="toolbar">
@@ -139,31 +162,34 @@ function App() {
           </div>
 
           {activeView === 'Recommendations' ? (
-            <div className="recommendation-list">
-              {recommendations.filter((song) => !query || `${song.title} ${song.artist}`.toLowerCase().includes(query.toLowerCase())).map((recommendation) => (
-                <article className="recommendation" key={recommendation.title}>
-                  <img src={recommendation.image} alt={`${recommendation.title} cover`} />
-                  <div className="recommendation-info"><span className="avatar friend-avatar" style={{ background: recommendation.color }}>{recommendation.friend[0]}</span><p><b>{recommendation.friend}</b> recommended <b>{recommendation.title}</b> · {recommendation.artist}</p><span>{recommendation.note}</span></div>
-                  <time>{recommendation.date}</time>
-                  <button className="save-button" onClick={() => toggleSaved(recommendation.title)} aria-label={`Save ${recommendation.title}`}>{savedSongs.has(recommendation.title) ? 'Saved' : 'Save'}</button>
-                </article>
+            <div className="recommend-list">
+              {filteredRecommendations.map((recommendation, index) => (
+                <RecommendationRow key={recommendation.title} index={index} recommendation={recommendation} isSaved={savedSongs.has(recommendation.title)} onToggleSaved={() => toggleSaved(recommendation.title)} />
               ))}
+              {!filteredRecommendations.length && <p className="empty-state">Nothing in your recommendations matches that search yet.</p>}
             </div>
           ) : (
             <div className="music-grid">
-              {filteredLibrary.map((song) => <MusicCard key={song.id} {...song} isSaved={savedSongs.has(song.title)} onToggleSaved={() => toggleSaved(song.title)} />)}
+              {filteredLibrary.map((song, index) => <MusicCard key={song.id} {...song} index={index} isSaved={savedSongs.has(song.title)} onToggleSaved={() => toggleSaved(song.title)} />)}
             </div>
           )}
 
           {!filteredLibrary.length && activeView !== 'Recommendations' && <p className="empty-state">Nothing in your collection matches that search yet.</p>}
         </section>
 
-        <section className="recommendations-preview">
-          <div className="section-heading"><div><p className="eyebrow">FOR YOUR EARS</p><h2>Waiting in the wings</h2></div><button className="text-button" onClick={() => setActiveView('Recommendations')}>See recommendations <span>→</span></button></div>
-          <div className="friend-pills">
-            {recommendations.map((recommendation) => <div className="friend-pill" key={recommendation.friend}><span className="avatar friend-avatar" style={{ background: recommendation.color }}>{recommendation.friend[0]}</span><span><b>{recommendation.friend}</b><small>sent you a recommendation</small></span><img src={recommendation.image} alt="" /></div>)}
-          </div>
-        </section>
+        {activeView !== 'Recommendations' && (
+          <section className="recommend-section">
+            <div className="section-heading recommend-heading">
+              <h2>Recommended to you</h2>
+              <button className="text-link" onClick={() => setActiveView('Recommendations')}>SEE ALL →</button>
+            </div>
+            <div className="recommend-list">
+              {recommendations.map((recommendation, index) => (
+                <RecommendationRow key={recommendation.title} index={index} recommendation={recommendation} isSaved={savedSongs.has(recommendation.title)} onToggleSaved={() => toggleSaved(recommendation.title)} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {isConnectOpen && (
           <div className="dialog-backdrop" role="presentation" onMouseDown={() => !isImporting && setIsConnectOpen(false)}>
@@ -176,7 +202,7 @@ function App() {
                 <label htmlFor="lastfm-username">Last.fm username</label>
                 <input autoFocus id="lastfm-username" onChange={(event) => setLastFmUsername(event.target.value)} placeholder="e.g. justin" required value={lastFmUsername} />
                 {connectionError && <p className="form-error" role="alert">{connectionError}</p>}
-                <button className="primary-button" disabled={isImporting} type="submit">{isImporting ? 'Importing…' : 'Import recent tracks'} <span>↗</span></button>
+                <button className="btn-outline" disabled={isImporting} type="submit">{isImporting ? 'Importing…' : 'Import recent tracks'} →</button>
               </form>
               <p className="dialog-note">You’ll need a Last.fm API key in <code>.env.local</code>. The app’s README explains the one-line setup.</p>
             </section>
