@@ -1,26 +1,35 @@
 .music-card { min-width: 0; }
 
-.cover-wrap { aspect-ratio: 1; border: 1px solid var(--hairline-card); overflow: hidden; position: relative; }
-.cover-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cover-wrap { position: relative; overflow: hidden; aspect-ratio: 1; border: 1px solid var(--hairline-card); background: var(--surface); }
+.cover-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .22s ease; }
+.music-card:hover .cover-wrap img { transform: scale(1.02); }
 
-.catalogue-chip { position: absolute; top: 5px; left: 5px; background: var(--paper); font: 600 8px 'IBM Plex Mono', monospace; padding: 2px 5px; }
-.classification-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; }
-.classification-bar.bar-green { background: var(--green); }
-.classification-bar.bar-plum { background: var(--plum); }
+.catalogue-chip { position: absolute; top: 6px; left: 6px; padding: 3px 6px; background: var(--header); color: var(--ink); font: 600 8px 'IBM Plex Mono', monospace; text-transform: uppercase; }
+.classification-bar { position: absolute; right: 0; bottom: 0; left: 0; height: 3px; }
+.classification-bar.bar-green { background: var(--gold); }
+.classification-bar.bar-plum { background: var(--red); }
 
-.cover-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
-.cover-placeholder--green { background: linear-gradient(135deg, #8fbfae, #4f7a78); }
-.cover-placeholder--plum { background: linear-gradient(135deg, #a4839f, #5b3568); }
-.cover-diamond { width: 16px; height: 16px; border: 1px solid var(--paper); transform: rotate(45deg); }
-.cover-placeholder-artist { position: absolute; bottom: 14px; left: 8px; right: 8px; text-align: center; font-family: 'Source Serif 4', serif; font-style: italic; font-size: 11px; color: var(--paper); }
+.cover-placeholder { position: relative; display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; }
+.cover-placeholder--green { background: repeating-linear-gradient(135deg, #34374a 0 12px, #252935 12px 24px); }
+.cover-placeholder--plum { background: repeating-linear-gradient(135deg, #31242c 0 12px, #221d25 12px 24px); }
+.cover-diamond { width: 18px; height: 18px; border: 1px solid var(--gold); transform: rotate(45deg); }
+.cover-placeholder-artist { position: absolute; right: 8px; bottom: 14px; left: 8px; overflow: hidden; color: var(--muted); font: italic 400 11px 'Source Serif 4', serif; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
 
-.music-card h3 { font-family: 'Source Serif 4', serif; font-style: italic; font-weight: 400; font-size: 13px; margin: 9px 0 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.track-artist { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.track-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 7px; padding-top: 5px; border-top: 1px solid var(--hairline-soft); font: 500 9px 'IBM Plex Mono', monospace; color: var(--faint-2); }
+.music-card h3 { overflow: hidden; margin: 10px 0 2px; color: var(--ink); font: italic 400 15px 'Source Serif 4', serif; text-overflow: ellipsis; white-space: nowrap; }
+.track-artist { overflow: hidden; margin: 0; color: var(--muted); font-size: 10px; letter-spacing: .03em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+.track-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--hairline-soft); color: var(--faint); font: 500 9px 'IBM Plex Mono', monospace; }
 .track-meta-right { display: flex; align-items: center; }
-.track-save { display: none; background: none; border: 0; padding: 0; font: 600 9px 'IBM Plex Mono', monospace; cursor: pointer; }
+.track-save { display: none; padding: 0; border: 0; background: none; cursor: pointer; font: 600 9px 'IBM Plex Mono', monospace; text-transform: uppercase; }
 .music-card:hover .track-plays { display: none; }
 .music-card:hover .track-save { display: inline; }
-.track-save.is-saved { color: var(--green); }
-.track-save:not(.is-saved) { color: var(--plum); text-decoration: underline; text-underline-offset: 2px; }
+.track-save.is-saved { color: var(--gold); }
+.track-save:not(.is-saved) { color: var(--red); text-decoration: underline; text-underline-offset: 2px; }
+
+@media (hover: none) {
+  .track-plays { display: none; }
+  .track-save { display: inline; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-wrap img { transition: none; }
+}

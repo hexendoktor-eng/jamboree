@@ -1,29 +1,32 @@
-const navItems = ['Home', 'Library', 'Recommendations']
+const navItems = [
+  { label: 'Home', view: 'Home' },
+  { label: 'New music', view: 'Library' },
+  { label: 'Reviews', view: 'Recommendations' },
+]
 
-export default function Navigation({ activeView, onChangeView }) {
+export default function Navigation({ activeView, onChangeView, query, onChangeQuery }) {
+  const handleSearchSubmit = (event) => {
+    event.preventDefault()
+    onChangeView('Library')
+  }
+
   return (
-    <nav className="sidebar" aria-label="Main navigation">
-      <div className="brand-block">
-        <a className="brand" href="#top" onClick={(event) => { event.preventDefault(); onChangeView('Home') }}>Jamboree</a>
-        <p className="brand-sub">PERSONAL CATALOGUE</p>
-      </div>
-
-      <div className="sidebar-nav">
-        {navItems.map((label, index) => (
-          <button key={label} className={activeView === label ? 'nav-link active' : 'nav-link'} onClick={() => onChangeView(label)}>
-            <span className="nav-num">{String(index + 1).padStart(2, '0')}</span>
-            <span className="nav-label"> — {label}</span>
-          </button>
+    <header className="site-header">
+      <button className="wordmark" onClick={() => onChangeView('Home')} aria-label="Jamboree home">
+        <span>Jamboree</span>
+        <small>Personal catalogue</small>
+      </button>
+      <span className="header-divider" aria-hidden="true" />
+      <nav className="primary-nav" aria-label="Main navigation">
+        {navItems.map((item) => (
+          <button className={activeView === item.view ? 'header-nav-link active' : 'header-nav-link'} key={item.view} onClick={() => onChangeView(item.view)}>{item.label}</button>
         ))}
-      </div>
-
-      <div className="sidebar-bottom">
-        <button className="nav-link">
-          <span className="nav-num">04</span>
-          <span className="nav-label"> — Settings</span>
-        </button>
-        <p className="sidebar-tagline">Est. 2026 · a private index of the music worth remembering.</p>
-      </div>
-    </nav>
+      </nav>
+      <form className="header-search" role="search" onSubmit={handleSearchSubmit}>
+        <span aria-hidden="true">⌕</span>
+        <input value={query} onChange={(event) => onChangeQuery(event.target.value)} placeholder="Search releases, artists, friends…" aria-label="Search Jamboree" />
+      </form>
+      <button className="avatar" aria-label="Open profile">J</button>
+    </header>
   )
 }
