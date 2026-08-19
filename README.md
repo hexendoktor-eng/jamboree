@@ -2,13 +2,6 @@
 
 A personal music catalogue for saving listening history and tracking recommendations from friends.
 
-## Run locally
-
-```bash
-npm install
-npm run dev
-```
-
 ## Import a public Last.fm profile
 
 Jamboree imports a username’s recent public scrobbles. It does not ask for a Last.fm password or use Last.fm login.
