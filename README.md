@@ -9,18 +9,30 @@ npm install
 npm run dev
 ```
 
-## Import a public Last.fm profile
+The frontend runs at `http://localhost:5173`. The catalogue interface and SoundCloud test can run without private credentials.
 
-Jamboree imports a username’s recent public scrobbles. It does not ask for a Last.fm password or use Last.fm login.
+## Last.fm integration
 
-1. Create a free API account at [Last.fm API accounts](https://www.last.fm/api/account/create).
-2. Copy `.env.example` to `.env.local`.
-3. Replace the placeholder with the API key Last.fm gives you:
+Jamboree imports a username's recent public scrobbles through a separate C# backend. The Last.fm API key is stored in .NET User Secrets and is never bundled into the browser application.
 
-   ```text
-   VITE_LASTFM_API_KEY=your_api_key_here
-   ```
+If you have the companion `jamboree-backend` repository beside this repository, configure and start it with:
 
-4. Restart `npm run dev`, select **Add Last.fm profile**, and enter a public Last.fm username.
+```bash
+cd ../jamboree-backend
+dotnet user-secrets set "LastFm:ApiKey" "your_api_key_here" --project jamboree-backend/jamboree-backend.csproj
+dotnet run --project jamboree-backend/jamboree-backend.csproj
+```
 
-Do not add your Last.fm shared secret to this project. The username importer only makes public, read-only API calls. A server-side integration will be needed later for authenticated actions such as scrobbling or loving tracks.
+The backend listens at `http://localhost:5041`. You can override that address in an ignored frontend `.env.local` file:
+
+```text
+VITE_API_BASE_URL=http://localhost:5041
+```
+
+Never place the Last.fm API key or shared secret in a `VITE_` environment variable. Vite variables are delivered to the browser and must be treated as public.
+
+## SoundCloud test
+
+The SoundCloud Test page plays public tracks using SoundCloud's official embedded Widget API. It does not require a SoundCloud client ID, client secret, or password.
+
+Private tracks and tracks that disable external embedding will not play.

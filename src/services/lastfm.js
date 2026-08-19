@@ -1,4 +1,8 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5041').replace(/\/$/, '')
+const defaultApiBaseUrl = typeof window === 'undefined'
+  ? 'http://localhost:5041'
+  : `${window.location.protocol}//${window.location.hostname}:5041`
+
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || defaultApiBaseUrl).replace(/\/$/, '')
 
 export async function getRecentTracks(username) {
   const normalizedUsername = username.trim()

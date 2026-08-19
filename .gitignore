@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 
+# Local environment files and credentials
+.env
+.env.*
+!.env.example
+
+# Local companion backend and workspace-only files
+jamboree-backend/
+.claude/
+img.png
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
