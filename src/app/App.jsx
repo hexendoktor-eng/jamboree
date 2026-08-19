@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import './App.css'
 import Navigation from '../components/Navigation'
 import MusicCard from '../components/MusicCard/MusicCard'
+import SoundCloudTest from '../components/SoundCloudTest/SoundCloudTest'
 import { SongList } from '../exampleSongs.js'
 import { getRecentTracks } from '../services/lastfm'
 
@@ -353,6 +354,8 @@ function App() {
 
       {activeView === 'Home' ? (
         <HomeView importedLibrary={importedLibrary} lastFmProfile={lastFmProfile} savedSongs={savedSongs} onConnect={openConnectDialog} onToggleSaved={toggleSaved} onViewRecommendations={() => changeView('Recommendations')} />
+      ) : activeView === 'SoundCloud' ? (
+        <SoundCloudTest />
       ) : (
         <CollectionView activeView={activeView} filter={filter} filteredLibrary={filteredLibrary} filteredRecommendations={filteredRecommendations} onFilter={setFilter} onToggleSaved={toggleSaved} savedSongs={savedSongs} />
       )}
@@ -370,7 +373,7 @@ function App() {
               {connectionError && <p className="form-error" role="alert">{connectionError}</p>}
               <button className="dialog-submit" disabled={isImporting} type="submit">{isImporting ? 'Importing…' : 'Import recent tracks'} →</button>
             </form>
-            <p className="dialog-note">You’ll need a Last.fm API key in <code>.env.local</code>. The app’s README explains the one-line setup.</p>
+            <p className="dialog-note">The Last.fm API key stays in your private C# backend and is never sent to this browser.</p>
           </section>
         </div>
       )}

@@ -2,6 +2,7 @@ const navItems = [
   { label: 'Home', view: 'Home' },
   { label: 'New music', view: 'Library' },
   { label: 'Reviews', view: 'Recommendations' },
+  { label: 'SoundCloud test', view: 'SoundCloud' },
 ]
 
 export default function Navigation({ activeView, onChangeView, query, onChangeQuery }) {
